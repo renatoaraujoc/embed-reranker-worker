@@ -1,0 +1,12 @@
+# RunPod SDK
+runpod>=1.8.1,<2.0.0
+
+# ML core (torch installed separately with --index-url; pinned here to prevent upgrade)
+torch==2.6.0
+sentence-transformers==5.3.0
+transformers>=5.3.0,<6.0.0
+accelerate>=1.1.0
+
+# Supporting
+einops>=0.8.0
+numpy>=2.0

@@ -1,0 +1,12 @@
+.git
+docs
+__pycache__
+*.py[cod]
+*.egg-info
+.env
+.env.*
+venv
+.venv
+.idea
+.vscode
+*.md
