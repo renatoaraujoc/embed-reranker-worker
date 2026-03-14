@@ -27,16 +27,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve version
+      - name: Resolve and validate version
         id: version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             INPUT="${{ github.event.inputs.version }}"
-            # Prepend 'v' if missing
-            if [[ "$INPUT" != v* ]]; then
-              INPUT="v${INPUT}"
+            # Strip 'v' prefix for validation
+            SEMVER="${INPUT#v}"
+            # Validate semver format (X.Y.Z)
+            if ! echo "$SEMVER" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+              echo "::error::Invalid version '$INPUT'. Must be semver (e.g., v1.0.9 or 1.0.9)"
+              exit 1
             fi
-            echo "tag=${INPUT}" >> $GITHUB_OUTPUT
+            echo "tag=v${SEMVER}" >> $GITHUB_OUTPUT
           else
             echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           fi
