@@ -43,7 +43,8 @@ async def handler(job):
                 return {"error": "Embeddings not configured (EMBED_MODEL not set)"}
             texts = payload.get("input", [])
             n = 1 if isinstance(texts, str) else len(texts)
-            log.info(f"[queue] /v1/embeddings — {n} texts, dims={payload.get('dimensions', 'native')}")
+            dims = payload.get('dimensions') or config.default_dimensions or 'native'
+            log.info(f"[queue] /v1/embeddings — {n} texts, dims={dims}")
             start = time.perf_counter()
             result = embed_service.embed(payload)
             log.info(f"[queue] Embeddings complete — {(time.perf_counter() - start) * 1000:.0f}ms")

@@ -42,7 +42,8 @@ def create_app(config, embed_service, rerank_service):
         texts = payload.get("input", [])
         if isinstance(texts, str):
             texts = [texts]
-        log.info(f"POST /v1/embeddings — {len(texts)} texts, dims={payload.get('dimensions', 'native')}")
+        dims = payload.get('dimensions') or config.default_dimensions or 'native'
+        log.info(f"POST /v1/embeddings — {len(texts)} texts, dims={dims}")
         start = time.perf_counter()
         await embed_service.ensure_loaded()
         result = embed_service.embed(payload)
