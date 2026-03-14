@@ -141,7 +141,7 @@ Returns `200` when ready, `204` while initializing.
 ### RunPod Queue Mode (serverless, scale-to-zero)
 
 1. Create a **Queue-based** endpoint on RunPod
-2. Set container image to `renatoaraujoc/runpod-embed-reranker:v1.0.8`
+2. Set container image to `ghcr.io/renatoaraujoc/embed-reranker-worker:latest`
 3. Set env vars (`EMBED_MODEL`, `RERANK_MODEL`, etc.)
 4. Set container disk to **25 GB** (for model downloads)
 5. Requests go through RunPod's `/openai/v1/embeddings` proxy or `/runsync`
@@ -181,10 +181,28 @@ RERANK_BATCH_SIZE=32
 MAX_CLIENT_BATCH_SIZE=128
 ```
 
-## Build
+## Docker Image
+
+Pre-built images are published to GitHub Container Registry on every tagged release:
 
 ```bash
-docker buildx build --platform linux/amd64 -t renatoaraujoc/runpod-embed-reranker:v1.0.8 --push .
+docker pull ghcr.io/renatoaraujoc/embed-reranker-worker:latest
+docker pull ghcr.io/renatoaraujoc/embed-reranker-worker:v1.0.8
+```
+
+### Building locally
+
+```bash
+docker buildx build --platform linux/amd64 -t ghcr.io/renatoaraujoc/embed-reranker-worker:v1.0.8 .
+```
+
+### Releasing
+
+Push a version tag to trigger the GitHub Actions build + release:
+
+```bash
+git tag v1.0.9
+git push origin v1.0.9
 ```
 
 ## Stack
