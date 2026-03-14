@@ -183,27 +183,15 @@ MAX_CLIENT_BATCH_SIZE=128
 
 ## Docker Image
 
-Pre-built images are published to GitHub Container Registry on every tagged release:
+Pre-built images are published to GitHub Container Registry on every tagged release via GitHub Actions.
+
+To build locally:
 
 ```bash
-docker pull ghcr.io/renatoaraujoc/embed-reranker-worker:latest
-docker pull ghcr.io/renatoaraujoc/embed-reranker-worker:v1.0.8
+docker buildx build --platform linux/amd64 -t embed-reranker-worker .
 ```
 
-### Building locally
-
-```bash
-docker buildx build --platform linux/amd64 -t ghcr.io/renatoaraujoc/embed-reranker-worker:v1.0.8 .
-```
-
-### Releasing
-
-Push a version tag to trigger the GitHub Actions build + release:
-
-```bash
-git tag v1.0.9
-git push origin v1.0.9
-```
+To release: push a version tag (`git tag v1.x.x && git push origin v1.x.x`).
 
 ## Stack
 
